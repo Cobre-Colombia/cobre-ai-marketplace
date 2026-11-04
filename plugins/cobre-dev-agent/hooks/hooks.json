@@ -1,0 +1,18 @@
+{
+  "description": "Block hardcoded Cobre credentials in agent write/edit/shell tool calls",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|Bash|PowerShell|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/scan-cobre-credentials.js"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

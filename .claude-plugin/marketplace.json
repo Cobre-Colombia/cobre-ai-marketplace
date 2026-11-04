@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "cobre-ai-marketplace",
+  "description": "Cobre's client-facing marketplace for Claude Code plugins that help developers integrate with Cobre APIs.",
+  "owner": {
+    "name": "Cobre"
+  },
+  "plugins": [
+    {
+      "name": "cobre-dev-agent",
+      "source": "./plugins/cobre-dev-agent",
+      "category": "development",
+      "description": "AI developer assistant for integrating with Cobre APIs."
+    }
+  ]
+}

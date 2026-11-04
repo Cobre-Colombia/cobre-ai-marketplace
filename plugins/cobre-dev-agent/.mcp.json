@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "Cobre API Documentation": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "apidog-mcp-server@0.0.18",
+        "--site-id=760877"
+      ]
+    }
+  }
+}

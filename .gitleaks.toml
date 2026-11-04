@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Fake token fixtures used to test the credential-scanner hook"
+paths = ['''plugins/cobre-dev-agent/hooks/scan-cobre-credentials\.test\.js''']
