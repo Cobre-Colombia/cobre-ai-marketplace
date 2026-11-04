@@ -57,7 +57,43 @@ When you need one of these details, confirm it with Cobre before relying on it.
 
 This describes plugin behavior only, not Claude Code’s own product telemetry or privacy policy.
 
+## What this plugin installs
+
+Installing `cobre-dev-agent` loads:
+
+- Three Markdown skills: `cobre-auth`, `cobre-webhooks`, and `cobre-api-conventions`
+- A routing agent (`cobre-integration-router`)
+- A local Node hook that blocks hardcoded credentials in agent writes
+- An MCP server started with `npx` (`apidog-mcp-server@0.0.18`) that reads public Cobre documentation
+
+Claude Code shows a standard trust prompt before installing. Use this list to decide with that information. For credentials, network access, and plugin telemetry, see [Privacy and security](#privacy-and-security).
+
+## Install from GitHub
+
+Register this marketplace from the GitHub repository:
+
+```text
+/plugin marketplace add Cobre-Colombia/cobre-ai-marketplace
+```
+
+Install the plugin from that marketplace:
+
+```text
+/plugin install cobre-dev-agent@cobre-ai-marketplace
+```
+
+Reload so the install is available in the current session:
+
+```text
+/reload-plugins
+```
+
+
+Claude Code offers to install **for you (user scope)** or **for all collaborators on this repository (project scope)**. User scope is the usual choice.
+
 ## Install from a local checkout
+
+Use a local checkout if you want to review or modify the plugin.
 
 1. Clone or otherwise obtain this repository.
 2. Start Claude Code.
@@ -168,7 +204,8 @@ Removing a marketplace **uninstalls plugins you installed from it**.
 | Docs MCP / `npx` fails | Confirm Node/`npx` on `PATH` and network access. The server is `apidog-mcp-server@0.0.18`. |
 | MCP server times out on first start (`connection timed out after 30000ms`) | The first run downloads `apidog-mcp-server@0.0.18` through `npx`, which can take longer than Claude Code's startup timeout. Reconnect from `/mcp`, or start Claude Code with a longer timeout, for example `MCP_TIMEOUT=60000 claude`. |
 | Credential hook never blocks | Node must be on `PATH`. If the hook cannot start, Claude Code may treat that as a non-blocking error and still run the write. |
-| GitHub `owner/repo` add fails | This guide is **local path**. Remote add needs git access to the repository. |
+| GitHub `owner/repo` add fails | Check network access to github.com and that Git can reach the repository. |
+| `self-signed certificate in certificate chain` | Your network may be inspecting TLS traffic. Configure your organization's root certificate for Node.js (`NODE_EXTRA_CA_CERTS`). Never disable certificate verification. |
 | Manifest doubts | From the repo root: `claude plugin validate .` and `claude plugin validate plugins/cobre-dev-agent`. |
 
 There is no supported command to “force” MCP without approval.
