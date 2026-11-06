@@ -207,7 +207,7 @@ Removing a marketplace **uninstalls plugins you installed from it**.
 | GitHub `owner/repo` add fails | Check network access to github.com and that Git can reach the repository. |
 | `self-signed certificate in certificate chain` | Your network may be inspecting TLS traffic. Configure your organization's root certificate for Node.js (`NODE_EXTRA_CA_CERTS`). Never disable certificate verification. |
 | Manifest doubts | From the repo root: `claude plugin validate .` and `claude plugin validate plugins/cobre-dev-agent`. |
-| The credential hook blocks a write that has no credential in it | The hook looks at fields named `secret` or `*_secret` and blocks values that are not an environment reference or a configuration access. Assigning a bare parameter, for example `this.secret = secret` or a typed Python signature, can be flagged by mistake. Keep credentials in a configuration object (`options.secret` or `config.secret`) or read them from environment variables, and do not paste real values into code. A block does not mean a credential was found. |
+| The credential hook blocks a write that has no credential in it | The hook looks at fields named `secret` or `*_secret` and blocks values that are not an environment reference or a configuration access. Assigning a bare parameter (for example `this.secret = secret`), a helper call that reads the environment (for example `secret: requireEnv("COBRE_SECRET")`) or a typed Python signature can be flagged by mistake. Keep credentials in a configuration object (`options.secret` or `config.secret`) or read them from environment variables, and do not paste real values into code. A block does not mean a credential was found. |
 
 There is no supported command to “force” MCP without approval.
 
