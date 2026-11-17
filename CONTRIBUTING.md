@@ -15,3 +15,7 @@ endpoints, or internal comments.
 ## Security
 
 Never commit secrets. See SECURITY.md to report vulnerabilities.
+
+## Licensing of contributions
+
+By submitting a contribution, you certify that you have the right to submit it and agree that it is licensed under this repository’s Apache License 2.0.
