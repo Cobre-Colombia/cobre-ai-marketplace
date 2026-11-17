@@ -6,7 +6,7 @@ The current plugin is **`cobre-dev-agent`**.
 
 > This plugin is a support tool for developers. It does not replace Cobre’s official documentation or certification process. Any readiness or security checks do not constitute official Cobre certification or a security guarantee. AI-generated outputs may be inaccurate or outdated. Users must verify them against docs.cobre.com before production use.
 
-## What v0.1 includes
+## What this version includes
 
 - **Public Cobre Docs MCP** — reads current Cobre API docs (schemas, fields, endpoints) via the bundled `Cobre API Documentation` server.
 - **`cobre-integration-router`** — routes Cobre integration questions to a matching skill, or to the Docs MCP when no skill fits.
@@ -14,18 +14,27 @@ The current plugin is **`cobre-dev-agent`**.
 - **`cobre-webhooks`** — webhook subscriptions, HMAC signatures, duplicates, retries, and handler review.
 - **`cobre-api-conventions`** — API errors, retries, idempotency, amounts, pagination, and versioning (not a Money Movement rejection catalog).
 - **Credential-safety hook** — local `PreToolUse` scanner that blocks obvious hardcoded secrets/JWTs in agent writes.
+- **Product-depth skills** — each product has a flow skill, a testing skill, and a certification-prep skill (not official certification).
 
-## What v0.1 does not do
+| Product | Skills |
+| :---- | :---- |
+| PayOut Colombia | `cobre-payout-co-flow`, `cobre-payout-co-testing`, `cobre-payout-co-readiness` |
+| PayOut México | `cobre-payout-mx-flow`, `cobre-payout-mx-testing`, `cobre-payout-mx-readiness` |
+| PayIn México | `cobre-payin-mx-flow`, `cobre-payin-mx-testing`, `cobre-payin-mx-readiness` |
+| PayIn Colombia | `cobre-payin-co-r2p-flow`, `cobre-payin-co-standing-flow`, `cobre-payin-co-testing`, `cobre-payin-co-readiness` |
+| Cross-Border / FX | `cobre-cross-border-fx-flow`, `cobre-cross-border-generic-flow`, `cobre-cross-border-testing`, `cobre-cross-border-readiness` |
+| Stablecoins | `cobre-stablecoins-balances-payins-flow`, `cobre-stablecoins-payouts-flow`, `cobre-stablecoins-conversion-flow`, `cobre-stablecoins-testing`, `cobre-stablecoins-readiness` |
 
-- No product-specific PayIn / PayOut / SPEI skills yet
+## What this version does not do
+
+- Product-depth skills state only what the public Cobre documentation establishes. They do not cover pricing, spreads, limits or settlement times, and where public sources disagree they expose the conflict instead of choosing one.
 - No sandbox orchestration
 - No real Cobre API execution with customer credentials
-- No access to internal Cobre systems
 - No access to Cobre internal systems or customer data
-- No plugin telemetry in v0.1
+- No plugin telemetry in this version
 - Not a Cobre SDK
 
-v0.1 is **advisor-only**.
+This version is **advisor-only**.
 
 ## Known limitations
 
@@ -34,8 +43,9 @@ This plugin only states what Cobre's public documentation establishes. Where the
 - **Webhook signatures:** the plugin does not generate the signature comparison (the digest encoding) until it is confirmed from the current public docs or the Docs MCP. Webhook handler examples stop before that step and are marked as incomplete and not deployable.
 - **Webhook delivery:** the plugin does not state timeouts, 5xx retry behavior, replay windows, or ordering guarantees unless the public docs define them. What is public: 3 automatic retries on connection errors only, no retries on 4xx, and no later redelivery. Delivery is best-effort, so reconcile by polling the resource.
 - **Error responses:** the error format varies across endpoints. The plugin does not assume a single error envelope or that every error is HTTP 409.
-- **Idempotency:** the header name and rules are endpoint-specific. Only the Money Movements and Cross-Border Money Movements contract is treated as documented.
+- **Idempotency:** the header name and rules depend on the endpoint. Skills tell you to verify them endpoint by endpoint in the Docs MCP.
 - **Amounts, pagination and versioning:** minimums and maximums, sign rules, pagination style, and version headers can differ by endpoint, currency, or rail. The plugin checks the endpoint contract in the Docs MCP and does not hardcode or validate them.
+- **Docs MCP refresh:** If the Docs MCP cannot refresh (for example because of a TLS inspection certificate error), the product-depth skills tell you so and ask how to continue instead of generating from memory.
 
 When you need one of these details, confirm it with Cobre before relying on it.
 
@@ -51,7 +61,7 @@ When you need one of these details, confirm it with Cobre before relying on it.
 - Installing the plugin does **not** require Cobre API credentials.
 - The plugin itself does **not** send adoption telemetry.
 - It does **not** connect to internal Cobre systems.
-- v0.1 does **not** execute real Cobre API calls with customer credentials.
+- This version does **not** execute real Cobre API calls with customer credentials.
 - It **may** read, review, or edit local integration code when you ask.
 - Credential scanning runs **locally** on the current tool action (`PreToolUse`). The hook does not intentionally log or transmit matched credential values.
 - The public Docs MCP **requires network access** to fetch documentation.
@@ -63,7 +73,7 @@ This describes plugin behavior only, not Claude Code’s own product telemetry o
 
 Installing `cobre-dev-agent` loads:
 
-- Three Markdown skills: `cobre-auth`, `cobre-webhooks`, and `cobre-api-conventions`
+- Markdown skills: three transversal ones (`cobre-auth`, `cobre-webhooks`, `cobre-api-conventions`) and the product-depth skills listed above
 - A routing agent (`cobre-integration-router`)
 - A local Node hook that blocks hardcoded credentials in agent writes
 - An MCP server started with `npx` (`apidog-mcp-server@0.0.18`) that reads public Cobre documentation
@@ -154,7 +164,7 @@ Ask in natural language. The router sends you to a skill or to the Docs MCP.
 
 > Using the Cobre API Documentation MCP, show me the required fields for POST /money_movements.
 
-You can also invoke a skill explicitly (`/cobre-dev-agent:cobre-auth`, `/cobre-dev-agent:cobre-webhooks`, `/cobre-dev-agent:cobre-api-conventions`) or @-mention `@cobre-dev-agent:cobre-integration-router`. Natural-language routing is the primary UX.
+You can also invoke a skill explicitly (`/cobre-dev-agent:cobre-auth`, `/cobre-dev-agent:cobre-webhooks`, `/cobre-dev-agent:cobre-api-conventions`, or a product-depth skill listed above) or @-mention `@cobre-dev-agent:cobre-integration-router`. Natural-language routing is the primary UX.
 
 ## Credential safety hook
 
