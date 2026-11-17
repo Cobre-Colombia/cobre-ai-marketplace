@@ -4,6 +4,8 @@ Client-facing Claude Code marketplace for plugins that help developers integrate
 
 The current plugin is **`cobre-dev-agent`**.
 
+> This plugin is a support tool for developers. It does not replace Cobre’s official documentation or certification process. Any readiness or security checks do not constitute official Cobre certification or a security guarantee. AI-generated outputs may be inaccurate or outdated. Users must verify them against docs.cobre.com before production use.
+
 ## What v0.1 includes
 
 - **Public Cobre Docs MCP** — reads current Cobre API docs (schemas, fields, endpoints) via the bundled `Cobre API Documentation` server.
@@ -222,3 +224,15 @@ There is no supported command to “force” MCP without approval.
 ## Internal contributor note
 
 Repository maintainers: see [`AGENTS.md`](AGENTS.md).
+
+## License
+
+The code, guides and configuration in this repository are published under the Apache License 2.0 (see `LICENSE`).
+
+Copyright (c) 2026 Pexto Colombia SAS
+
+Third-party tools such as `apidog-mcp-server` (ISC license) are not included or redistributed in this repository and keep their own license terms. Adopting the Apache License 2.0 does not change those terms.
+
+### Trademarks
+
+Cobre and the Cobre logo are trademarks of Pexto Colombia SAS. This license does not grant rights to these trademarks, except as permitted by Section 6 of the Apache License 2.0. Modified versions must not be presented as official Cobre software or as endorsed by Cobre.
