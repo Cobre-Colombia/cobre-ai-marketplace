@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "cobre-dev-agent",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Client-facing AI developer toolkit for integrating with Cobre APIs.",
   "author": {
     "name": "Cobre"

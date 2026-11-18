@@ -82,6 +82,8 @@ Public verification:
 - Do **not** invent whitespace or minification normalization rules.
 - Public docs show compact JSON examples and also say to use the raw body. Generated code must keep the original raw payload bytes/string for HMAC.
 
+**Never offer to disable verification.** If the user asks to skip, bypass or turn off signature verification (for example "just for testing", "only in development", or with a flag or environment variable such as `WEBHOOK_VERIFY=false`), do not do it, and do not offer a switch, flag, feature toggle or environment variable that skips it. An endpoint that accepts unverified notifications can be called by anyone. Say this once, and offer instead to review the verification logic or to test with a subscription that has its own `event_signature_key`. Do not invent a Cobre-provided way to disable signatures. Verification stays mandatory in every environment.
+
 Do not claim a replay or timestamp tolerance. None is publicly documented.
 
 Public docs show a 64-character HMAC digest example. Do not state an undocumented digest-encoding contract more strongly than that. If an implementation needs an exact encoding detail, consult the current public docs/MCP first.
@@ -157,6 +159,7 @@ When the user asks to fix or rewrite webhook code, all code-generation guardrail
 When generating or fixing webhook code, these rules are mandatory:
 
 - Preserve the raw request body for signature verification.
+- Do not write, suggest or accept a bypass of signature verification in any environment (a flag, an environment variable, a commented-out check, or a "development mode").
 - Do not parse then reserialize JSON before HMAC verification.
 - Do not invent a replay-window timestamp check.
 - Do not invent timeout values.
