@@ -8,7 +8,12 @@ description: >-
   webhook handler review, signature debugging, idempotency fixes, retry
   handling, and webhook code refactoring. Use when the user asks how to
   subscribe to Cobre events, verify webhook signatures, handle duplicates, or
-  review, fix, or debug a Cobre webhook integration.
+  review, fix, or debug a Cobre webhook integration; to skip, bypass, disable
+  or turn off signature verification (omitir, saltear, desactivar o apagar la
+  verificación de la firma); to add a flag or environment variable to skip
+  verification (for example WEBHOOK_VERIFY); to test webhooks locally or in
+  development without configuring `event_signature_key`; or to add a
+  development mode to a webhook handler.
 ---
 
 # Cobre webhooks
