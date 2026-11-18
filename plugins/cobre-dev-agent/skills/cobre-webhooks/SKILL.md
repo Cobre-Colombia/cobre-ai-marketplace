@@ -8,7 +8,12 @@ description: >-
   webhook handler review, signature debugging, idempotency fixes, retry
   handling, and webhook code refactoring. Use when the user asks how to
   subscribe to Cobre events, verify webhook signatures, handle duplicates, or
-  review, fix, or debug a Cobre webhook integration.
+  review, fix, or debug a Cobre webhook integration; to skip, bypass, disable
+  or turn off signature verification (omitir, saltear, desactivar o apagar la
+  verificación de la firma); to add a flag or environment variable to skip
+  verification (for example WEBHOOK_VERIFY); to test webhooks locally or in
+  development without configuring `event_signature_key`; or to add a
+  development mode to a webhook handler.
 ---
 
 # Cobre webhooks
@@ -81,6 +86,8 @@ Public verification:
 - Do **not** parse and `JSON.stringify` / reformat the body before verification.
 - Do **not** invent whitespace or minification normalization rules.
 - Public docs show compact JSON examples and also say to use the raw body. Generated code must keep the original raw payload bytes/string for HMAC.
+
+**Never offer to disable verification.** If the user asks to skip, bypass or turn off signature verification (for example "just for testing", "only in development", or with a flag or environment variable such as `WEBHOOK_VERIFY=false`), do not do it, and do not offer a switch, flag, feature toggle or environment variable that skips it. An endpoint that accepts unverified notifications can be called by anyone. Say this once, and offer instead to review the verification logic or to test with a subscription that has its own `event_signature_key`. Do not invent a Cobre-provided way to disable signatures. Verification stays mandatory in every environment.
 
 Do not claim a replay or timestamp tolerance. None is publicly documented.
 
@@ -157,6 +164,7 @@ When the user asks to fix or rewrite webhook code, all code-generation guardrail
 When generating or fixing webhook code, these rules are mandatory:
 
 - Preserve the raw request body for signature verification.
+- Do not write, suggest or accept a bypass of signature verification in any environment (a flag, an environment variable, a commented-out check, or a "development mode").
 - Do not parse then reserialize JSON before HMAC verification.
 - Do not invent a replay-window timestamp check.
 - Do not invent timeout values.
